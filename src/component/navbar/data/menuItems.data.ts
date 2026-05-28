@@ -1,12 +1,16 @@
-import {APP_ROUTES} from "../../../config/routes.ts";
+import { APP_ROUTES } from "../../../config/routes.ts";
 
 export const menuItems = [
-    {
-        label: "Feladat",
-        path: APP_ROUTES.TASK,
-    },
-    {
-        label: "Bus CRUD",
-        path: APP_ROUTES.BUS_CRUD,
-    },
+  {
+    label: "Feladat",
+    path: APP_ROUTES.TASK,
+  },
+  {
+    label: "Bus CRUD",
+    path: APP_ROUTES.BUS_CRUD,
+  },
+  {
+    label: "Board",
+    path: APP_ROUTES.BOARD,
+  },
 ];

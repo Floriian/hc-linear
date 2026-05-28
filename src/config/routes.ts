@@ -3,4 +3,5 @@ export const APP_ROUTES = {
   BUS_CRUD: "/buses",
   BUS_DETAILS: "/buses/:id",
   BUS_EDIT: "/buses/:id/edit",
+  BOARD: "/board",
 };
