@@ -5,14 +5,13 @@ import {
   createOrEditBusSchema,
   type CreateOrEditBusInput,
 } from "../schema/bus.schema";
-
 import {
   FormControl,
   FormGroup,
   InputLabel,
   Select,
   TextField,
-} from "../style/bus-form.style";
+} from "../../../component/form/form.styles";
 
 interface Props {
   onSubmit: (data: CreateOrEditBusInput) => void;
