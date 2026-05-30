@@ -9,7 +9,6 @@ interface Props {
 export function TaskStatusBadge({ status }: Props) {
   const isDone = status === "done";
   const isInProgress = status === "in_progress";
-  const isTodo = status === "todo";
 
   return (
     <Chip
