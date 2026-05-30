@@ -31,6 +31,9 @@ export const useCreateTask = () => {
       });
       toast.showToast("Feladat sikeresen létrehozva", "success");
     },
+    onError: () => {
+      toast.showToast("Hiba történt a feladat létrehozásakor", "error");
+    },
   });
 };
 
@@ -51,6 +54,9 @@ export const useUpdateTask = () => {
       queryClient.invalidateQueries({ queryKey: [TASK_QUERY_KEYS.TASK, id] });
       toast.showToast("Feladat sikeresen frissítve", "success");
     },
+    onError: () => {
+      toast.showToast("Hiba történt a feladat frissítésekor", "error");
+    },
   });
 };
 
@@ -65,6 +71,9 @@ export const useDeleteTask = () => {
         queryKey: [TASK_QUERY_KEYS.TASKS],
       });
       toast.showToast("Feladat sikeresen törölve", "success");
+    },
+    onError: () => {
+      toast.showToast("Hiba történt a feladat törlésekor", "error");
     },
   });
 };
