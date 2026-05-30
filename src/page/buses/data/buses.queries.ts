@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BUS_QUERY_KEYS } from "./buses.query-keys";
 import { busApi } from "./bus.api";
 import type { CreateOrEditBusInput } from "../schema/bus.schema";
+import { useToast } from "../../../component/toast/use-toast.hook";
 
 export const useBuses = () => {
   return useQuery({
@@ -19,6 +20,7 @@ export const useBus = (id: number) => {
 
 export const useCreateBus = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
 
   return useMutation({
     mutationKey: [BUS_QUERY_KEYS.BUSES],
@@ -27,12 +29,17 @@ export const useCreateBus = () => {
       queryClient.invalidateQueries({
         queryKey: [BUS_QUERY_KEYS.BUSES],
       });
+      toast.showToast("Busz sikeresen létrehozva");
+    },
+    onError: () => {
+      toast.showToast("Hiba történt a busz létrehozásakor", "error");
     },
   });
 };
 
 export const useUpdateBus = (id: number) => {
   const queryClient = useQueryClient();
+  const toast = useToast();
   return useMutation({
     mutationKey: [BUS_QUERY_KEYS.BUS, id],
     mutationFn: (data: CreateOrEditBusInput) => busApi.update(id, data),
@@ -43,12 +50,17 @@ export const useUpdateBus = (id: number) => {
       queryClient.invalidateQueries({
         queryKey: [BUS_QUERY_KEYS.BUS, id],
       });
+      toast.showToast("Busz sikeresen frissítve");
+    },
+    onError: () => {
+      toast.showToast("Hiba történt a busz frissítésekor", "error");
     },
   });
 };
 
 export const useDeleteBus = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
   return useMutation({
     mutationKey: [BUS_QUERY_KEYS.BUSES],
     mutationFn: (id: number) => busApi.delete(id),
@@ -56,6 +68,10 @@ export const useDeleteBus = () => {
       queryClient.invalidateQueries({
         queryKey: [BUS_QUERY_KEYS.BUSES],
       });
+      toast.showToast("Busz sikeresen törölve");
+    },
+    onError: () => {
+      toast.showToast("Hiba történt a busz törlésekor", "error");
     },
   });
 };
