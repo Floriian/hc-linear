@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { TASK_QUERY_KEYS } from "./task.query-keys";
 import { tasksApi } from "./tasks.api";
 import type { CreateOrEditTaskInput } from "../schema/task.schema";
+import { useToast } from "../../../component/toast/use-toast.hook";
 
 export const useTasks = () => {
   return useQuery({
@@ -19,6 +20,7 @@ export const useTask = (id: number) => {
 
 export const useCreateTask = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
 
   return useMutation({
     mutationKey: [TASK_QUERY_KEYS.TASKS],
@@ -27,35 +29,42 @@ export const useCreateTask = () => {
       queryClient.invalidateQueries({
         queryKey: [TASK_QUERY_KEYS.TASKS],
       });
+      toast.showToast("Feladat sikeresen létrehozva", "success");
     },
   });
 };
 
-export const useUpdateTask = (id: number) => {
+export const useUpdateTask = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
+
   return useMutation({
-    mutationKey: [TASK_QUERY_KEYS.TASK, id],
-    mutationFn: (data: CreateOrEditTaskInput) => tasksApi.update(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [TASK_QUERY_KEYS.TASKS],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [TASK_QUERY_KEYS.TASK, id],
-      });
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: number;
+      data: Partial<CreateOrEditTaskInput>;
+    }) => tasksApi.update(id, data),
+    onSuccess: (_res, { id }) => {
+      queryClient.invalidateQueries({ queryKey: [TASK_QUERY_KEYS.TASKS] });
+      queryClient.invalidateQueries({ queryKey: [TASK_QUERY_KEYS.TASK, id] });
+      toast.showToast("Feladat sikeresen frissítve", "success");
     },
   });
 };
 
-export const useDeleteTask = (id: number) => {
+export const useDeleteTask = () => {
   const queryClient = useQueryClient();
+  const toast = useToast();
   return useMutation({
-    mutationKey: [TASK_QUERY_KEYS.TASK, id],
-    mutationFn: () => tasksApi.delete(id),
+    mutationKey: [TASK_QUERY_KEYS.TASKS],
+    mutationFn: (id: number) => tasksApi.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [TASK_QUERY_KEYS.TASKS],
       });
+      toast.showToast("Feladat sikeresen törölve", "success");
     },
   });
 };

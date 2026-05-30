@@ -15,7 +15,7 @@ export const tasksApi = {
     const { data } = await boardAxiosClient.post<Task>("/tasks", bus);
     return data;
   },
-  update: async (id: number, task: CreateOrEditTaskInput) => {
+  update: async (id: number, task: Partial<CreateOrEditTaskInput>) => {
     const { data } = await boardAxiosClient.patch<Task>(`/tasks/${id}`, task);
     return data;
   },
