@@ -37,13 +37,13 @@ export const useCreateBus = () => {
   });
 };
 
-export const useUpdateBus = (id: number) => {
+export const useUpdateBus = () => {
   const queryClient = useQueryClient();
   const toast = useToast();
   return useMutation({
-    mutationKey: [BUS_QUERY_KEYS.BUS, id],
-    mutationFn: (data: CreateOrEditBusInput) => busApi.update(id, data),
-    onSuccess: () => {
+    mutationFn: ({ id, data }: { id: number; data: CreateOrEditBusInput }) =>
+      busApi.update(id, data),
+    onSuccess: (_res, { id }) => {
       queryClient.invalidateQueries({
         queryKey: [BUS_QUERY_KEYS.BUSES],
       });
